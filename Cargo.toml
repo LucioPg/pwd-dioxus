@@ -1,6 +1,6 @@
 [package]
 name = "pwd-dioxus"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2024"
 description = "Reusable Dioxus components for password handling UI"
 license = "MIT"
@@ -32,6 +32,7 @@ form = ["icons-visibility", "dep:secrecy", "dep:dioxus"]
 secret-display = ["form", "icons-visibility", "icons-action"]
 analyzer = ["spinner", "dep:pwd-types"]
 handler = ["form", "analyzer", "icons-action", "dep:secrecy", "dep:tokio", "dep:tokio-util"]
+toast = ["dep:dioxus", "dep:tokio"]
 
 # === CONVENIENCE ===
-full = ["icons", "spinner", "modal", "handler"]
+full = ["icons", "spinner", "modal", "handler", "toast"]

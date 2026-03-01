@@ -21,6 +21,9 @@ pub mod secret;
 #[cfg(any(feature = "analyzer", feature = "handler"))]
 pub mod password;
 
+#[cfg(feature = "toast")]
+pub mod toast;
+
 // === RE-EXPORTS per convenienza ===
 
 #[cfg(feature = "form")]
@@ -31,6 +34,12 @@ pub use password::StrengthAnalyzer;
 
 #[cfg(feature = "handler")]
 pub use password::{PasswordHandler, EvaluationResult};
+
+#[cfg(feature = "toast")]
+pub use toast::{
+    show_toast_error, show_toast_success, schedule_toast_success,
+    ToastContainer, ToastHubState, ToastMessage, ToastType, use_toast,
+};
 
 // Re-export tipi pwd-types usati nelle API pubbliche
 // I consumer possono usarli senza aggiungere pwd-types alle dipendenze
