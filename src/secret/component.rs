@@ -3,6 +3,13 @@ use crate::icons::{ClipboardIcon, EyeIcon, EyeOffIcon};
 use dioxus::prelude::*;
 use secrecy::ExposeSecret;
 
+/// Copia il testo negli appunti del sistema
+fn copy_to_clipboard(text: &str) {
+    let script = format!("navigator.clipboard.writeText(`{}`)", text);
+    // Ignora eventuali errori (in ambiente web la clipboard API potrebbe non essere disponibile)
+    let _ = dioxus::document::eval(&script);
+}
+
 /// Componente SecretDisplay - visualizza dati sensibili con toggle visibility
 ///
 /// Usato per: password, location, e altri campi sensibili
@@ -16,9 +23,6 @@ pub fn SecretDisplay(
     /// Larghezza massima del contenitore (default: 200px)
     #[props(default = "200px".to_string())]
     max_width: String,
-    /// Callback quando si clicca sull'icona clipboard
-    #[props(default)]
-    on_copy: Option<EventHandler<()>>,
 ) -> Element {
     let mut visible = use_signal(|| false);
 
@@ -30,6 +34,9 @@ pub fn SecretDisplay(
     } else {
         "•".repeat(value_len)
     };
+
+    // Clona il valore segreto per usarlo nel closure
+    let secret_value = secret.expose_secret().to_string();
 
     rsx! {
         div { class: "secret-display-wrapper {class.clone().unwrap_or_default()}",
@@ -50,6 +57,7 @@ pub fn SecretDisplay(
                 button {
                     class: "pwd-display-action-btn",
                     r#type: "button",
+                    tabindex: -1,
                     onclick: move |_| visible.set(!visible()),
                     aria_label: if visible() { "Nascondi" } else { "Mostra" },
                     if visible() {
@@ -62,8 +70,10 @@ pub fn SecretDisplay(
                 button {
                     class: "pwd-display-action-btn",
                     r#type: "button",
-                    disabled: on_copy.is_none(),
-                    aria_label: "Copia",
+                    tabindex: -1,
+                    aria_label: "Copia negli appunti",
+                    disabled: value_len == 0,
+                    onclick: move |_| copy_to_clipboard(&secret_value),
                     ClipboardIcon { class: Some("text-current".to_string()) }
                 }
             }
