@@ -57,7 +57,7 @@ pub fn SecretDisplay(
                 button {
                     class: "pwd-display-action-btn",
                     r#type: "button",
-                    tabindex: -1,
+                    "tabindex": "-1",
                     onclick: move |_| visible.set(!visible()),
                     aria_label: if visible() { "Nascondi" } else { "Mostra" },
                     if visible() {
@@ -70,7 +70,7 @@ pub fn SecretDisplay(
                 button {
                     class: "pwd-display-action-btn",
                     r#type: "button",
-                    tabindex: -1,
+                    "tabindex": "-1",
                     aria_label: "Copia negli appunti",
                     disabled: value_len == 0,
                     onclick: move |_| copy_to_clipboard(&secret_value),
