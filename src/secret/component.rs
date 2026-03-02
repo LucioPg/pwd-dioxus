@@ -5,7 +5,15 @@ use secrecy::ExposeSecret;
 
 /// Copia il testo negli appunti del sistema
 fn copy_to_clipboard(text: &str) {
-    let script = format!("navigator.clipboard.writeText(`{}`)", text);
+    // Escape dei caratteri speciali per i template literal JavaScript:
+    // - \ deve essere escapato per primo (altrimenti \` diventa \\`)
+    // - ` chiude il template literal
+    // - $ potrebbe innescare interpolation ${...}
+    let escaped = text
+        .replace('\\', "\\\\")
+        .replace('`', "\\`")
+        .replace('$', "\\$");
+    let script = format!("navigator.clipboard.writeText(`{escaped}`)");
     // Ignora eventuali errori (in ambiente web la clipboard API potrebbe non essere disponibile)
     let _ = dioxus::document::eval(&script);
 }
