@@ -117,6 +117,7 @@ pub fn FormField<T: FormValue>(
                     button {
                         class: "password-visibility-toggle",
                         r#type: "button",
+                        tabindex: "-1",
                         onclick: move |_| {
                             password_visible.set(!password_visible());
                         },
