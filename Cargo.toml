@@ -1,6 +1,6 @@
 [package]
 name = "pwd-dioxus"
-version = "0.2.4"
+version = "0.2.5"
 edition = "2024"
 description = "Reusable Dioxus components for password handling UI"
 license = "MIT"
@@ -15,6 +15,7 @@ secrecy = { version = "0.10", optional = true }
 pwd-types = { git = "https://github.com/LucioPg/pwd-types", features = ["secrecy"], optional = true }
 tokio = { version = "1", features = ["sync", "time"], optional = true }
 tokio-util = { version = "0.7", optional = true }
+arboard = { version = "3.4", optional = true }
 
 [features]
 default = []
@@ -29,7 +30,7 @@ modal = ["dep:dioxus"]
 
 # === COMPOSITI ===
 form = ["icons-visibility", "dep:secrecy", "dep:dioxus"]
-secret-display = ["form", "icons-visibility", "icons-action"]
+secret-display = ["form", "icons-visibility", "icons-action", "dep:arboard"]
 analyzer = ["spinner", "dep:pwd-types"]
 handler = ["form", "analyzer", "icons-action", "dep:secrecy", "dep:tokio", "dep:tokio-util"]
 toast = ["dep:dioxus", "dep:tokio"]

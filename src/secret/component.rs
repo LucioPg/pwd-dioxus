@@ -3,19 +3,16 @@ use crate::icons::{ClipboardIcon, EyeIcon, EyeOffIcon};
 use dioxus::prelude::*;
 use secrecy::ExposeSecret;
 
-/// Copia il testo negli appunti del sistema (async)
-async fn copy_to_clipboard(text: String) {
-    // Escape dei caratteri speciali per i template literal JavaScript:
-    // - \ deve essere escapato per primo (altrimenti \` diventa \\`)
-    // - ` chiude il template literal
-    // - $ potrebbe innescare interpolation ${...}
-    let escaped = text
-        .replace('\\', "\\\\")
-        .replace('`', "\\`")
-        .replace('$', "\\$");
-    let script = format!("navigator.clipboard.writeText(`{escaped}`)");
-    // Ignora eventuali errori (in ambiente web la clipboard API potrebbe non essere disponibile)
-    let _ = document::eval(&script).await;
+/// Copia il testo negli appunti del sistema (nativo desktop)
+fn copy_to_clipboard(text: String) {
+    match arboard::Clipboard::new() {
+        Ok(mut clipboard) => {
+            if let Err(e) = clipboard.set_text(&text) {
+                eprintln!("Errore clipboard: {}", e);
+            }
+        }
+        Err(e) => eprintln!("Impossibile accedere agli appunti: {}", e),
+    }
 }
 
 /// Componente SecretDisplay - visualizza dati sensibili con toggle visibility
@@ -82,10 +79,7 @@ pub fn SecretDisplay(
                     aria_label: "Copia negli appunti",
                     disabled: value_len == 0,
                     onclick: move |_| {
-                        let value = secret_value.clone();
-                        async move {
-                            copy_to_clipboard(value).await;
-                        }
+                        copy_to_clipboard(secret_value.clone());
                     },
                     ClipboardIcon { class: Some("text-current".to_string()) }
                 }
