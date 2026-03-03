@@ -198,15 +198,53 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
     };
 
     // Effect per sincronizzare generated_password
-    let mut password_for_effect = password.clone();
-    let mut repassword_for_effect = repassword.clone();
-    let on_change_for_effect = props.on_password_change.clone();
+    // Usa spawn per evitare problemi di borrow checker con la closure
+    let password_for_sync = password.clone();
+    let repassword_for_sync = repassword.clone();
+    let on_eval_for_sync = props.on_evaluate.clone();
+    let on_change_for_sync = props.on_password_change.clone();
+    let mut strength_for_sync = strength.clone();
+    let mut reasons_for_sync = reasons.clone();
+    let mut score_for_sync = score.clone();
+
     use_effect(move || {
         if let Some(gen_pwd_signal) = &props.generated_password {
             if let Some(new_pwd) = gen_pwd_signal() {
-                password_for_effect.set(new_pwd.clone());
-                repassword_for_effect.set(new_pwd.clone());
-                on_change_for_effect.call(PasswordChangeResult::new(new_pwd.0.clone()));
+                // Imposta entrambi i campi password
+                password_for_sync.set(new_pwd.clone());
+                repassword_for_sync.set(new_pwd.clone());
+
+                // Se c'è la callback di valutazione, eseguila per ottenere score/strength
+                if let Some(on_eval) = &on_eval_for_sync {
+                    let on_change = on_change_for_sync.clone();
+                    let on_eval = on_eval.clone();
+                    let token = cancel_token.read().clone();
+                    let mut strength_sig = strength_for_sync.clone();
+                    let mut reasons_sig = reasons_for_sync.clone();
+                    let mut score_sig = score_for_sync.clone();
+
+                    spawn(async move {
+                        let (tx, mut rx) = mpsc::channel(1);
+                        on_eval.call((new_pwd.clone(), token, tx));
+
+                        if let Some(eval) = rx.recv().await {
+                            // Aggiorna i signal interni per StrengthAnalyzer
+                            strength_sig.set(eval.strength);
+                            reasons_sig.set(eval.reasons.clone());
+                            score_sig.set(eval.score);
+
+                            on_change.call(PasswordChangeResult {
+                                password: new_pwd.0.clone(),
+                                score: eval.score,
+                                strength: eval.strength,
+                                reasons: eval.reasons,
+                            });
+                        }
+                    });
+                } else {
+                    // Senza valutazione, notifica solo il cambio
+                    on_change_for_sync.call(PasswordChangeResult::new(new_pwd.0.clone()));
+                }
             }
         }
     });
