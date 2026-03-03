@@ -203,7 +203,7 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
     let on_change_for_effect = props.on_password_change.clone();
     use_effect(move || {
         if let Some(gen_pwd_signal) = &props.generated_password {
-            if let Some(new_pwd) = gen_pwd_signal.read().clone() {
+            if let Some(new_pwd) = gen_pwd_signal() {
                 password_for_effect.set(new_pwd.clone());
                 repassword_for_effect.set(new_pwd.clone());
                 on_change_for_effect.call(PasswordChangeResult::new(new_pwd.0.clone()));
@@ -258,12 +258,12 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
                 }
             }
 
-            // Strength analyzer
+            // Strength analyzer - leggere signal con () per reattività
             StrengthAnalyzer {
-                strength: strength.read().clone(),
-                reasons: reasons.read().clone(),
+                strength: strength(),
+                reasons: reasons(),
                 is_evaluating: is_evaluating(),
-                score: score.read().clone(),
+                score: score(),
                 show_bar: props.show_strength_bar,
             }
 
