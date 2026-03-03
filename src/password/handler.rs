@@ -199,8 +199,8 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
 
     // Effect per sincronizzare generated_password
     // Usa spawn per evitare problemi di borrow checker con la closure
-    let password_for_sync = password.clone();
-    let repassword_for_sync = repassword.clone();
+    let mut password_for_sync = password.clone();
+    let mut repassword_for_sync = repassword.clone();
     let on_eval_for_sync = props.on_evaluate.clone();
     let on_change_for_sync = props.on_password_change.clone();
     let mut strength_for_sync = strength.clone();
