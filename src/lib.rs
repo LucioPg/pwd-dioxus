@@ -186,6 +186,9 @@ pub mod password;
 #[cfg(feature = "toast")]
 pub mod toast;
 
+#[cfg(feature = "toggle")]
+pub mod toggle;
+
 // === RE-EXPORTS per convenienza ===
 
 #[cfg(feature = "form")]
@@ -196,6 +199,9 @@ pub use password::StrengthAnalyzer;
 
 #[cfg(feature = "handler")]
 pub use password::{PasswordHandler, EvaluationResult};
+
+#[cfg(feature = "toggle")]
+pub use toggle::{Toggle, ToggleColor, ToggleSize};
 
 #[cfg(feature = "toast")]
 pub use toast::{
