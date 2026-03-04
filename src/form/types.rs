@@ -79,6 +79,7 @@ pub enum InputType {
     Email,
     #[allow(dead_code)]
     Number,
+    PositiveInt,
     #[allow(dead_code)]
     Tel,
     #[allow(dead_code)]
@@ -93,6 +94,7 @@ impl InputType {
             InputType::Password => "password",
             InputType::Email => "email",
             InputType::Number => "number",
+            InputType::PositiveInt => "number",
             InputType::Tel => "tel",
             InputType::Url => "url",
         }
@@ -100,5 +102,9 @@ impl InputType {
 
     pub fn is_textarea(&self) -> bool {
         matches!(self, InputType::Textarea)
+    }
+
+    pub fn is_positive_int(&self) -> bool {
+        matches!(self, InputType::PositiveInt)
     }
 }

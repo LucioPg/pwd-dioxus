@@ -166,6 +166,42 @@ pub fn FormField<T: FormValue>(
                 }
             }
         }
+    } else if input_type.is_positive_int() {
+        rsx! {
+            div { class: if let Some(custom_class) = class {
+                format!("form-group {}", custom_class)
+            } else {
+                "form-group".to_string()
+            },
+                label { class: "form-label",
+                    "{label}"
+                    if required {
+                        span { class: "text-error ml-1", "*" }
+                    }
+                }
+                input {
+                    class: "{input_class}",
+                    r#type: "{effective_type}",
+                    placeholder: "{placeholder}",
+                    value: "{value.read().to_form_string()}",
+                    min: "1",
+                    oninput: move |e| {
+                        let filtered = filter_input(e.value());
+                        if let Some(new_value) = T::from_form_string(filtered) {
+                            value.set(new_value.clone());
+                            if let Some(callback) = on_change {
+                                callback.call(new_value);
+                            }
+                        }
+                    },
+                    disabled: disabled,
+                    readonly: readonly,
+                    name: name,
+                    required: required,
+                    autocomplete: if autocomplete { "on" } else { "off" },
+                }
+            }
+        }
     } else {
         rsx! {
             div { class: if let Some(custom_class) = class {
