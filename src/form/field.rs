@@ -1,4 +1,4 @@
-use super::types::{FormValue, InputType};
+use super::types::{FormValue, InputType, SPECIAL_CHARS};
 use crate::icons::{EyeIcon, EyeOffIcon};
 use dioxus::prelude::*;
 
@@ -57,7 +57,7 @@ pub fn FormField<T: FormValue>(
 ) -> Element {
     let input_class = "pwd-input";
 
-    // Funzione di filtro per i caratteri
+    // Funzione di filtro per i caratteri (include filtro per SpecialChars)
     let filter_input = move |input: String| -> String {
         let mut result = input;
         if forbid_spaces {
@@ -65,6 +65,9 @@ pub fn FormField<T: FormValue>(
         }
         if alphanumeric_only {
             result = result.chars().filter(|c| c.is_alphanumeric()).collect();
+        }
+        if input_type.is_special_chars() {
+            result = result.chars().filter(|c| SPECIAL_CHARS.contains(*c)).collect();
         }
         result
     };

@@ -77,6 +77,9 @@ impl From<PositiveInt> for i32 {
     fn from(n: PositiveInt) -> Self { n.0 as i32 }
 }
 
+/// Caratteri speciali consentiti per SpecialChars
+pub const SPECIAL_CHARS: &str = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~£€§°";
+
 /// Tipo di input per FormField
 #[derive(Clone, PartialEq, Debug)]
 pub enum InputType {
@@ -88,6 +91,7 @@ pub enum InputType {
     #[allow(dead_code)]
     Number,
     PositiveInt,
+    SpecialChars,
     #[allow(dead_code)]
     Tel,
     #[allow(dead_code)]
@@ -103,6 +107,7 @@ impl InputType {
             InputType::Email => "email",
             InputType::Number => "number",
             InputType::PositiveInt => "number",
+            InputType::SpecialChars => "text",
             InputType::Tel => "tel",
             InputType::Url => "url",
         }
@@ -114,5 +119,9 @@ impl InputType {
 
     pub fn is_positive_int(&self) -> bool {
         matches!(self, InputType::PositiveInt)
+    }
+
+    pub fn is_special_chars(&self) -> bool {
+        matches!(self, InputType::SpecialChars)
     }
 }
