@@ -44,6 +44,24 @@ impl FormValue for i32 {
     fn from_form_string(s: String) -> Option<Self> { s.parse().ok() }
 }
 
+impl FormValue for u32 {
+    fn to_form_string(&self) -> String { self.to_string() }
+    fn from_form_string(s: String) -> Option<Self> { s.parse().ok() }
+}
+
+/// Numero intero positivo (> 0)
+#[derive(Clone, PartialEq, Debug)]
+pub struct PositiveInt(pub u32);
+
+impl FormValue for PositiveInt {
+    fn to_form_string(&self) -> String { self.0.to_string() }
+    fn from_form_string(s: String) -> Option<Self> {
+        s.parse::<u32>().ok()
+            .filter(|&n| n > 0)
+            .map(PositiveInt)
+    }
+}
+
 impl FormValue for Option<String> {
     fn to_form_string(&self) -> String { self.clone().unwrap_or_default() }
     fn from_form_string(s: String) -> Option<Self> {
