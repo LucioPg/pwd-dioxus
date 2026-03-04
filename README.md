@@ -2,6 +2,13 @@
 
 Reusable Dioxus components for password handling UI.
 
+## Requirements
+
+This library uses CSS classes compatible with **DaisyUI 5** and Tailwind CSS. Make sure your project includes:
+
+- [Tailwind CSS](https://tailwindcss.com/)
+- [DaisyUI 5](https://daisyui.com/)
+
 ## Features
 
 ### Atomic Components
