@@ -195,7 +195,7 @@ pub mod toast;
 pub mod toggle;
 
 #[cfg(feature = "combobox")]
-mod combobox;
+pub mod combobox;
 // === RE-EXPORTS per convenienza ===
 
 #[cfg(feature = "form")]
@@ -225,4 +225,4 @@ pub use pwd_types::{PasswordScore, PasswordStrength};
 pub use pwd_types::PasswordChangeResult;
 
 #[cfg(feature = "combobox")]
-pub use combobox::{Combobox, ComboboxItem};
+pub use combobox::Combobox;
