@@ -77,6 +77,8 @@ pub const TAILWIND_CLASSES_USED: &[&str] = &[
     "bg-base-200",
     "bg-base-content",
     "text-base-content",
+    "dropdown",
+    "dropdown-open",
 
     // === Tailwind Layout ===
     "flex",
@@ -139,11 +141,13 @@ pub const TAILWIND_CLASSES_USED: &[&str] = &[
     "bg-yellow-100",
     "bg-blue-100",
     "bg-primary-color/5",
+    "bg-base-100",
 
     // === Tailwind Borders ===
     "rounded",
     "rounded-lg",
     "rounded-xl",
+    "rounded-box",
     "border",
     "border-green-500",
     "border-red-500",
@@ -159,6 +163,7 @@ pub const TAILWIND_CLASSES_USED: &[&str] = &[
     "z-10",
     "z-[5]",
     "z-9999",
+    "inset-0",
 
     // === Tailwind Misc ===
     "space-y-1",
@@ -189,6 +194,8 @@ pub mod toast;
 #[cfg(feature = "toggle")]
 pub mod toggle;
 
+#[cfg(feature = "combobox")]
+mod combobox;
 // === RE-EXPORTS per convenienza ===
 
 #[cfg(feature = "form")]
@@ -216,3 +223,6 @@ pub use pwd_types::{PasswordScore, PasswordStrength};
 
 #[cfg(feature = "handler")]
 pub use pwd_types::PasswordChangeResult;
+
+#[cfg(feature = "combobox")]
+pub use combobox::{Combobox, ComboboxItem};
