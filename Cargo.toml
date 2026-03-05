@@ -1,6 +1,6 @@
 [package]
 name = "pwd-dioxus"
-version = "0.2.15"
+version = "0.2.16"
 edition = "2024"
 description = "Reusable Dioxus components for password handling UI"
 license = "MIT"

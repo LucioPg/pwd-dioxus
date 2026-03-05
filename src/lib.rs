@@ -199,7 +199,7 @@ pub mod combobox;
 // === RE-EXPORTS per convenienza ===
 
 #[cfg(feature = "form")]
-pub use form::{FormSecret, FormValue, InputType};
+pub use form::{FormSecret, FormValue, InputType, SPECIAL_CHARS};
 
 #[cfg(feature = "analyzer")]
 pub use password::StrengthAnalyzer;
