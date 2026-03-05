@@ -1,11 +1,9 @@
 use dioxus::prelude::*;
-use pwd_types::*;
-
-
+use crate::AnyPreset;
 
 #[component]
 pub fn Combobox(
-    options: Vec<(&'static str, Option<PasswordPreset>)>,
+    options: Vec<(&'static str, AnyPreset)>,
     current_preset: Signal<Option<PasswordPreset>>,
 ) -> Element {
     let mut is_open = use_signal(|| false);
