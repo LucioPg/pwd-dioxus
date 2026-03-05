@@ -85,7 +85,7 @@ impl From<PositiveInt> for i32 {
 pub const SPECIAL_CHARS: &str = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~£€§°";
 
 /// Tipo di input per FormField
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, Copy, PartialEq, Debug)]
 pub enum InputType {
     Text,
     Textarea,
