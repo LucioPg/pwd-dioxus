@@ -73,6 +73,10 @@ impl From<i32> for PositiveInt {
     fn from(n: i32) -> Self { PositiveInt(n as u32) }
 }
 
+impl From<u32> for PositiveInt {
+    fn from(n: u32) -> Self { PositiveInt(n) }
+}
+
 impl From<PositiveInt> for i32 {
     fn from(n: PositiveInt) -> Self { n.0 as i32 }
 }
