@@ -4,7 +4,7 @@ use pwd_types::*;
 
 
 #[component]
-fn CustomDropdown(
+pub fn Combobox(
     options: Vec<(&'static str, Option<PasswordPreset>)>,
     current_preset: Signal<Option<PasswordPreset>>,
 ) -> Element {
