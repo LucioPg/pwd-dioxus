@@ -1,6 +1,6 @@
 use pwd_types::PasswordPreset;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Copy)]
 pub enum AnyPreset {
     Standard(PasswordPreset),
     Custom,
