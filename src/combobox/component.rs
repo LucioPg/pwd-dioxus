@@ -4,7 +4,7 @@ use crate::AnyPreset;
 #[component]
 pub fn Combobox(
     options: Vec<(&'static str, AnyPreset)>,
-    current_preset: Signal<Option<PasswordPreset>>,
+    current_preset: Signal<Option<AnyPreset>>,
 ) -> Element {
     let mut is_open = use_signal(|| false);
     let mut selected_item = use_signal(|| "Select a preset".to_string());
