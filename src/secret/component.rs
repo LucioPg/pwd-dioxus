@@ -32,13 +32,7 @@ pub fn SecretDisplay(
 ) -> Element {
     let mut visible = use_signal(|| false);
     let value_len = secret.expose_secret().len();
-    let display_value = if value_len == 0 {
-        String::new()
-    } else if visible() {
-        secret.expose_secret().to_string()
-    } else {
-        "•".repeat(value_len)
-    };
+
 
     // Clona il valore segreto per usarlo nel closure
     let secret_value = secret.expose_secret().to_string();
@@ -49,7 +43,13 @@ pub fn SecretDisplay(
                 "password" }
         }
     });
-
+    let display_value = if value_len == 0 {
+        String::new()
+    } else if unlocked() || visible() {
+        secret.expose_secret().to_string()
+    } else {
+        "•".repeat(value_len)
+    };
 
     rsx! {
         div { class: "secret-display-wrapper {class.clone().unwrap_or_default()}",
@@ -58,7 +58,7 @@ pub fn SecretDisplay(
                 r#type: input_rtype(),
                 value: "{display_value}",
                 readonly: true,
-                title: if visible() {
+                title: if unlocked() {
                     Some(secret.expose_secret().to_string())
                 } else {
                     None
