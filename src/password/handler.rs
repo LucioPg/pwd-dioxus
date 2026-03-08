@@ -210,6 +210,7 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
     use_effect(move || {
         if let Some(gen_pwd_signal) = &props.generated_password {
             if let Some(new_pwd) = gen_pwd_signal() {
+                let mut generated_password_clone = gen_pwd_signal.clone();
                 // Imposta entrambi i campi password
                 password_for_sync.set(new_pwd.clone());
                 repassword_for_sync.set(new_pwd.clone());
@@ -241,6 +242,7 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
                             });
                         }
                     });
+                    generated_password_clone.set(None);
                 } else {
                     // Senza valutazione, notifica solo il cambio
                     on_change_for_sync.call(PasswordChangeResult::new(new_pwd.0.clone()));
