@@ -54,7 +54,7 @@ pub fn SecretDisplay(
     rsx! {
         div { class: "secret-display-wrapper {class.clone().unwrap_or_default()}",
             input {
-                class: "pwd-secret-display font-mono",
+                class: "pwd-secret-display w-full font-mono",
                 r#type: input_rtype(),
                 value: "{display_value}",
                 readonly: true,
@@ -63,7 +63,6 @@ pub fn SecretDisplay(
                 } else {
                     None
                 },
-                style: "max-width: {max_width}",
             }
 
             div { class: "secret-display-actions flex gap-1",
