@@ -1,14 +1,15 @@
 use dioxus::prelude::*;
-use crate::AnyPreset;
 
 #[component]
-pub fn Combobox(
-    options: Vec<(&'static str, Option<AnyPreset>)>,
-    current_preset: Signal<Option<AnyPreset>>,
+pub fn Combobox<T: Clone + PartialEq + 'static>(
+    options: Vec<(&'static str, Option<T>)>,
+    placeholder: String,
+    on_change: EventHandler<Option<T>>,
 ) -> Element {
     let mut is_open = use_signal(|| false);
-    let mut selected_item = use_signal(|| "Select a preset".to_string());
+    let mut selected_item = use_signal(|| placeholder);
     let dropdown_class = use_memo(move || if is_open() { "dropdown-open" } else { "" });
+
     rsx! {
         div { class: "dropdown {dropdown_class}",
 
@@ -29,12 +30,12 @@ pub fn Combobox(
                     onclick: move |_| is_open.set(false),
                 }
                 ul { class: "dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-64",
-                    for (label , preset) in options {
+                    for (label , value) in options {
                         li {
                             a {
                                 onclick: move |_| {
                                     selected_item.set(label.to_string());
-                                    current_preset.set(preset);
+                                    on_change.call(value.clone());
                                     is_open.set(false);
                                 },
                                 "{label}"
