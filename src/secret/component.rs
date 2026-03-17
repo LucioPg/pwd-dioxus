@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 use secrecy::ExposeSecret;
 
 /// Copia il testo negli appunti del sistema (nativo desktop)
-fn copy_to_clipboard(text: String) {
+pub fn copy_to_clipboard(text: String) {
     match arboard::Clipboard::new() {
         Ok(mut clipboard) => {
             if let Err(e) = clipboard.set_text(&text) {
