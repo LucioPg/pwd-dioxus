@@ -28,7 +28,6 @@ pub fn SecretDisplay(
     /// Larghezza massima del contenitore (default: 200px)
     #[props(default = "200px".to_string())]
     max_width: String,
-    unlocked: Signal<bool>,
 ) -> Element {
     let mut visible = use_signal(|| false);
     let value_len = secret.expose_secret().len();
@@ -37,15 +36,11 @@ pub fn SecretDisplay(
     // Clona il valore segreto per usarlo nel closure
     let secret_value = secret.expose_secret().to_string();
     let input_rtype = use_memo(move || {
-        if unlocked() { "text" } else {
-            if visible() { "text" }
-            else {
-                "password" }
-        }
+        if visible() { "text" } else { "password" }
     });
     let display_value = if value_len == 0 {
         String::new()
-    } else if unlocked() || visible() {
+    } else if visible() {
         secret.expose_secret().to_string()
     } else {
         "•".repeat(value_len)
@@ -58,11 +53,6 @@ pub fn SecretDisplay(
                 r#type: input_rtype(),
                 value: "{display_value}",
                 readonly: true,
-                title: if unlocked() {
-                    Some(secret.expose_secret().to_string())
-                } else {
-                    None
-                },
             }
 
             div { class: "secret-display-actions flex gap-1",
