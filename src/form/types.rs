@@ -62,6 +62,29 @@ impl FormValue for PositiveInt {
     }
 }
 
+/// Numero intero non negativo (>= 0)
+#[derive(Clone, PartialEq, Debug)]
+pub struct NonNegativeInt(pub u32);
+
+impl FormValue for NonNegativeInt {
+    fn to_form_string(&self) -> String { self.0.to_string() }
+    fn from_form_string(s: String) -> Option<Self> {
+        s.parse::<u32>().ok().map(NonNegativeInt)
+    }
+}
+
+impl From<i32> for NonNegativeInt {
+    fn from(n: i32) -> Self { NonNegativeInt(n.max(0) as u32) }
+}
+
+impl From<u32> for NonNegativeInt {
+    fn from(n: u32) -> Self { NonNegativeInt(n) }
+}
+
+impl From<NonNegativeInt> for i32 {
+    fn from(n: NonNegativeInt) -> Self { n.0 as i32 }
+}
+
 impl FormValue for Option<String> {
     fn to_form_string(&self) -> String { self.clone().unwrap_or_default() }
     fn from_form_string(s: String) -> Option<Self> {
@@ -95,6 +118,7 @@ pub enum InputType {
     #[allow(dead_code)]
     Number,
     PositiveInt,
+    NonNegativeInt,
     SpecialChars,
     #[allow(dead_code)]
     Tel,
@@ -111,6 +135,7 @@ impl InputType {
             InputType::Email => "email",
             InputType::Number => "number",
             InputType::PositiveInt => "number",
+            InputType::NonNegativeInt => "number",
             InputType::SpecialChars => "text",
             InputType::Tel => "tel",
             InputType::Url => "url",
@@ -123,6 +148,10 @@ impl InputType {
 
     pub fn is_positive_int(&self) -> bool {
         matches!(self, InputType::PositiveInt)
+    }
+
+    pub fn is_non_negative_int(&self) -> bool {
+        matches!(self, InputType::NonNegativeInt)
     }
 
     pub fn is_special_chars(&self) -> bool {
