@@ -12,6 +12,15 @@ use tokio_util::sync::CancellationToken;
 
 const DEBOUNCE_MS: u64 = 500;
 
+/// The method to use for password generation suggestions.
+#[derive(Clone, Copy, PartialEq, Debug)]
+pub enum GenerationMethod {
+    /// Use the Aegis-based random password generator (existing method).
+    Random,
+    /// Use the Diceware passphrase generator.
+    Diceware,
+}
+
 #[derive(Props, Clone, PartialEq)]
 pub struct PasswordHandlerProps {
     /// Callback chiamato quando la password cambia con risultato completo
@@ -29,7 +38,7 @@ pub struct PasswordHandlerProps {
 
     /// Callback chiamato quando utente clicca "Suggest" - il consumer deve generare la password
     #[props(default = None)]
-    pub on_suggest: Option<Callback<()>>,
+    pub on_suggest_method: Option<Callback<GenerationMethod>>,
 
     /// Signal letta dal consumer per passare la password generata
     /// Il consumer imposta questo signal quando ha generato la password
@@ -187,13 +196,17 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
     });
 
     // Callback per suggerimento password - delega al consumer
-    let suggest_onclick = {
-        let on_suggest = props.on_suggest.clone();
-        let is_gen = props.is_generating.clone();
+    let random_onclick = {
+        let on_suggest_method = props.on_suggest_method.clone();
         move |_| {
-            if let Some(on_gen) = &on_suggest {
-                on_gen.call(());
-            }
+            if let Some(cb) = &on_suggest_method { cb.call(GenerationMethod::Random); }
+        }
+    };
+
+    let diceware_onclick = {
+        let on_suggest_method = props.on_suggest_method.clone();
+        move |_| {
+            if let Some(cb) = &on_suggest_method { cb.call(GenerationMethod::Diceware); }
         }
     };
 
@@ -282,18 +295,41 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
             // Pulsante suggerimento password (se abilitato)
             if props.show_suggest_button {
                 div { class: "flex justify-end",
-                    button {
-                        class: "btn btn-ghost btn-sm gap-2 tooltip",
-                        "data-tip": "suggest password",
-                        r#type: "button",
-                        onclick: suggest_onclick,
-                        disabled: props.is_generating.map_or(false, |g| *g.read()),
-                        MagicWandIcon {
-                            size: "16".to_string(),
-                            stroke_width: "2".to_string(),
-                            class: None,
+                    div { class: "dropdown dropdown-end",
+                        div {
+                            tabindex: "0",
+                            role: "button",
+                            class: if props.is_generating.map_or(false, |g| *g.read()) {
+                                "btn btn-ghost btn-sm gap-2 tooltip btn-disabled"
+                            } else {
+                                "btn btn-ghost btn-sm gap-2 tooltip"
+                            },
+                            "data-tip": "suggest password",
+                            MagicWandIcon {
+                                size: "16".to_string(),
+                                stroke_width: "2".to_string(),
+                                class: None,
+                            }
+                            span { class: "text-xs", "Suggest" }
                         }
-                        span { class: "text-xs", "Suggest" }
+                        ul {
+                            tabindex: "0",
+                            class: "dropdown-content menu bg-base-100 rounded-box z-[100] w-52 p-2 shadow-lg border border-base-300",
+                            li {
+                                button {
+                                    r#type: "button",
+                                    onclick: random_onclick,
+                                    "Password Casuale"
+                                }
+                            }
+                            li {
+                                button {
+                                    r#type: "button",
+                                    onclick: diceware_onclick,
+                                    "Diceware"
+                                }
+                            }
+                        }
                     }
                 }
             }

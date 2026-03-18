@@ -2,4 +2,4 @@ mod analyzer;
 mod handler;
 
 pub use analyzer::StrengthAnalyzer;
-pub use handler::{PasswordHandler, EvaluationResult};
+pub use handler::{PasswordHandler, EvaluationResult, GenerationMethod};
