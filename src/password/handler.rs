@@ -92,6 +92,7 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
         let raw_val = score_opt.map(|s| s.value() as i64);
         PasswordScore::get_strength(raw_val)
     });
+    #[allow(clippy::redundant_closure)]
     let mut reasons = use_signal(|| Vec::<String>::new());
     #[allow(unused_mut)]
     let mut is_evaluating = use_signal(|| false);
@@ -171,8 +172,6 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
         }
     };
 
-    // Callback triggered when repassword changes
-    let props_for_re = props.clone();
     let on_repassword_change = move |new_pwd: FormSecret| {
         repassword.set(new_pwd.clone());
 
@@ -216,55 +215,54 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
     let mut repassword_for_sync = repassword.clone();
     let on_eval_for_sync = props.on_evaluate.clone();
     let on_change_for_sync = props.on_password_change.clone();
-    let mut strength_for_sync = strength.clone();
-    let mut reasons_for_sync = reasons.clone();
-    let mut score_for_sync = score.clone();
+    let strength_for_sync = strength.clone();
+    let reasons_for_sync = reasons.clone();
+    let score_for_sync = score.clone();
 
     use_effect(move || {
-        if let Some(gen_pwd_signal) = &props.generated_password {
-            if let Some(new_pwd) = gen_pwd_signal() {
-                let mut generated_password_clone = gen_pwd_signal.clone();
-                // Imposta entrambi i campi password
-                password_for_sync.set(new_pwd.clone());
-                repassword_for_sync.set(new_pwd.clone());
+        if let Some(gen_pwd_signal) = &props.generated_password
+            && let Some(new_pwd) = gen_pwd_signal() {
+            let mut generated_password_clone = gen_pwd_signal.clone();
+            // Imposta entrambi i campi password
+            password_for_sync.set(new_pwd.clone());
+            repassword_for_sync.set(new_pwd.clone());
 
-                // Se c'è la callback di valutazione, eseguila per ottenere score/strength
-                if let Some(on_eval) = &on_eval_for_sync {
-                    let on_change = on_change_for_sync.clone();
-                    let on_eval = on_eval.clone();
-                    let token = cancel_token.read().clone();
-                    let mut strength_sig = strength_for_sync.clone();
-                    let mut reasons_sig = reasons_for_sync.clone();
-                    let mut score_sig = score_for_sync.clone();
+            // Se c'è la callback di valutazione, eseguila per ottenere score/strength
+            if let Some(on_eval) = &on_eval_for_sync {
+                let on_change = on_change_for_sync.clone();
+                let on_eval = on_eval.clone();
+                let token = cancel_token.read().clone();
+                let mut strength_sig = strength_for_sync.clone();
+                let mut reasons_sig = reasons_for_sync.clone();
+                let mut score_sig = score_for_sync.clone();
 
-                    spawn(async move {
-                        let (tx, mut rx) = mpsc::channel(1);
-                        on_eval.call((new_pwd.clone(), token, tx));
+                spawn(async move {
+                    let (tx, mut rx) = mpsc::channel(1);
+                    on_eval.call((new_pwd.clone(), token, tx));
 
-                        if let Some(eval) = rx.recv().await {
-                            // Aggiorna i signal interni per StrengthAnalyzer
-                            strength_sig.set(eval.strength);
-                            reasons_sig.set(eval.reasons.clone());
-                            score_sig.set(eval.score);
+                    if let Some(eval) = rx.recv().await {
+                        // Aggiorna i signal interni per StrengthAnalyzer
+                        strength_sig.set(eval.strength);
+                        reasons_sig.set(eval.reasons.clone());
+                        score_sig.set(eval.score);
 
-                            on_change.call(PasswordChangeResult {
-                                password: new_pwd.0.clone(),
-                                score: eval.score,
-                                strength: eval.strength,
-                                reasons: eval.reasons,
-                            });
-                        }
-                    });
-                    generated_password_clone.set(None);
-                } else {
-                    // Senza valutazione, notifica solo il cambio
-                    on_change_for_sync.call(PasswordChangeResult::new(new_pwd.0.clone()));
-                }
+                        on_change.call(PasswordChangeResult {
+                            password: new_pwd.0.clone(),
+                            score: eval.score,
+                            strength: eval.strength,
+                            reasons: eval.reasons,
+                        });
+                    }
+                });
+                generated_password_clone.set(None);
+            } else {
+                // Senza valutazione, notifica solo il cambio
+                on_change_for_sync.call(PasswordChangeResult::new(new_pwd.0.clone()));
             }
         }
     });
 
-    rsx! {
+rsx! {
         div { class: "password-handler flex flex-col gap-3",
             // Password field
             FormField::<FormSecret> {
@@ -299,7 +297,7 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
                         div {
                             tabindex: "0",
                             role: "button",
-                            class: if props.is_generating.map_or(false, |g| *g.read()) {
+                            class: if props.is_generating.is_some_and(|g| *g.read()) {
                                 "btn btn-ghost btn-sm gap-2 tooltip btn-disabled"
                             } else {
                                 "btn btn-ghost btn-sm gap-2 tooltip"
