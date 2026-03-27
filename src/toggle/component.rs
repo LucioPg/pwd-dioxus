@@ -104,15 +104,15 @@ pub fn Toggle(
 
     let mut classes = String::from("toggle");
     if !size_class.is_empty() {
-        classes.push_str(" ");
+        classes.push(' ');
         classes.push_str(size_class);
     }
     if !color_class.is_empty() {
-        classes.push_str(" ");
+        classes.push(' ');
         classes.push_str(color_class);
     }
     if let Some(custom_class) = &class {
-        classes.push_str(" ");
+        classes.push(' ');
         classes.push_str(custom_class);
     }
 
