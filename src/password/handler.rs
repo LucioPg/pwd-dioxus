@@ -84,6 +84,7 @@ pub struct EvaluationResult {
 }
 
 #[component]
+#[allow(clippy::clone_on_copy)]
 pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
     // Internal state - inizializza con valori iniziali se presenti (modalità edit)
     let initial_pwd = props
