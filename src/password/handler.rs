@@ -12,6 +12,13 @@ use tokio_util::sync::CancellationToken;
 
 const DEBOUNCE_MS: u64 = 500;
 
+
+type EvaluationCallbackOption = Callback<(
+    FormSecret,
+    Arc<CancellationToken>,
+    mpsc::Sender<EvaluationResult>
+)>;
+
 /// The method to use for password generation suggestions.
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum GenerationMethod {
@@ -51,7 +58,7 @@ pub struct PasswordHandlerProps {
 
     /// Callback per valutare la password - restituisce (score, reasons) via channel
     /// Il consumer deve implementare la logica di valutazione
-    pub on_evaluate: Option<Callback<(FormSecret, Arc<CancellationToken>, mpsc::Sender<EvaluationResult>)>>,
+    pub on_evaluate: Option<EvaluationCallbackOption>,
 
     /// Etichetta per il campo password
     #[props(default = "Password".to_string())]
