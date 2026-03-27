@@ -18,7 +18,7 @@ pub fn ToastContainer() -> Element {
 
     // Timer to update toast timeouts
     use_effect(move || {
-        let mut state = state.clone();
+        let mut state = state;
         spawn(async move {
             loop {
                 tokio::time::sleep(std::time::Duration::from_millis(100)).await;

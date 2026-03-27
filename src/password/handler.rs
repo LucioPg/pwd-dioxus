@@ -1,3 +1,5 @@
+
+
 use crate::form::{FormField, FormSecret, InputType};
 use crate::icons::MagicWandIcon;
 use super::StrengthAnalyzer;
@@ -192,8 +194,8 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
     };
 
     // Cleanup on component unmount
-    let debounce_task_clone = debounce_task.clone();
-    let cancel_token_clone = cancel_token.clone();
+    let debounce_task_clone = debounce_task;
+    let cancel_token_clone = cancel_token;
     use_drop(move || {
         if let Some(task) = debounce_task_clone.read().as_ref() {
             task.cancel();
@@ -203,14 +205,14 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
 
     // Callback per suggerimento password - delega al consumer
     let random_onclick = {
-        let on_suggest_method = props.on_suggest_method.clone();
+        let on_suggest_method = props.on_suggest_method;
         move |_| {
             if let Some(cb) = &on_suggest_method { cb.call(GenerationMethod::Random); }
         }
     };
 
     let diceware_onclick = {
-        let on_suggest_method = props.on_suggest_method.clone();
+        let on_suggest_method = props.on_suggest_method;
         move |_| {
             if let Some(cb) = &on_suggest_method { cb.call(GenerationMethod::Diceware); }
         }
@@ -218,13 +220,13 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
 
     // Effect per sincronizzare generated_password
     // Usa spawn per evitare problemi di borrow checker con la closure
-    let mut password_for_sync = password.clone();
-    let mut repassword_for_sync = repassword.clone();
-    let on_eval_for_sync = props.on_evaluate.clone();
-    let on_change_for_sync = props.on_password_change.clone();
-    let strength_for_sync = strength.clone();
-    let reasons_for_sync = reasons.clone();
-    let score_for_sync = score.clone();
+    let mut password_for_sync = password;
+    let mut repassword_for_sync = repassword;
+    let on_eval_for_sync = props.on_evaluate;
+    let on_change_for_sync = props.on_password_change;
+    let strength_for_sync = strength;
+    let reasons_for_sync = reasons;
+    let score_for_sync = score;
 
     use_effect(move || {
         if let Some(gen_pwd_signal) = &props.generated_password
@@ -239,9 +241,9 @@ pub fn PasswordHandler(props: PasswordHandlerProps) -> Element {
                 let on_change = on_change_for_sync.clone();
                 let on_eval = on_eval.clone();
                 let token = cancel_token.read().clone();
-                let mut strength_sig = strength_for_sync.clone();
-                let mut reasons_sig = reasons_for_sync.clone();
-                let mut score_sig = score_for_sync.clone();
+                let mut strength_sig = strength_for_sync;
+                let mut reasons_sig = reasons_for_sync;
+                let mut score_sig = score_for_sync;
 
                 spawn(async move {
                     let (tx, mut rx) = mpsc::channel(1);
