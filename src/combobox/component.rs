@@ -1,4 +1,8 @@
 use dioxus::prelude::*;
+use dioxus::document::eval;
+use std::sync::atomic::{AtomicUsize, Ordering};
+
+static COMBO_ID_COUNTER: AtomicUsize = AtomicUsize::new(0);
 
 #[component]
 pub fn Combobox<T: Clone + PartialEq + 'static>(
@@ -19,14 +23,19 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
         .unwrap_or_else(|| placeholder.clone());
     let mut is_open = use_signal(|| false);
     let mut selected_item = use_signal(|| initial_label);
-    let dropdown_class = use_memo(move || if is_open() { "dropdown-open" } else { "" });
     let is_disabled = use_memo(move || disabled());
+    let combo_id = use_signal(|| {
+        format!(
+            "pwd-combo-{}",
+            COMBO_ID_COUNTER.fetch_add(1, Ordering::Relaxed)
+        )
+    });
 
     rsx! {
-        div { class: "dropdown {dropdown_class}",
-
-            // Bottone che apre/chiude lo switch
+        div {
+            // Bottone trigger
             div {
+                id: "{combo_id}",
                 role: "button",
                 class: if is_disabled() {
                     "btn m-1 w-64 justify-between btn-disabled"
@@ -35,19 +44,29 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
                 },
                 onclick: move |_| if !is_disabled() { is_open.toggle() },
                 "{selected_item}"
-                // Icona freccia (opzionale)
+                // Icona freccia
                 span { class: "text-xs", {if is_open() { "▲" } else { "▼" }} }
             }
 
-            // Menu delle opzioni
+            // Menu delle opzioni - position: fixed per superare overflow dei parent
             if is_open() && !is_disabled() {
                 div {
-                    class: "fixed inset-0 z-0",
+                    class: "fixed inset-0 z-[9998]",
                     onclick: move |_| is_open.set(false),
                 }
-                ul { class: "dropdown-content z-[9999] menu p-2 shadow bg-base-100 rounded-box w-64",
-                    for (label , value) in options {
+                ul {
+                    id: "{combo_id}-dropdown",
+                    class: "menu p-2 shadow-lg bg-base-100 rounded-box w-64",
+                    style: "position: fixed; z-index: 9999; top: -9999px; left: 0;",
+                    onmounted: move |_| {
+                        let id = combo_id().clone();
+                        eval(&format!(
+                            r#"const t=document.getElementById('{id}');const d=document.getElementById('{id}-dropdown');if(t&&d){{const r=t.getBoundingClientRect();d.style.top=r.bottom+'px';d.style.left=r.left+'px';}}"#,
+                        ));
+                    },
+                    for (label, value) in options {
                         li {
+                            key: "{label}",
                             a {
                                 onclick: move |_| {
                                     selected_item.set(label.to_string());
