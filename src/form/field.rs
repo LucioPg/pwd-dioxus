@@ -1,3 +1,7 @@
+// Copyright (c) 2026 Lucio Di Capua <ldcproductions@proton.me>
+// Licensed under the Prosperity Public License 3.0.0
+// Commercial use requires a license. See LICENSE.md for details.
+
 use super::types::{FormValue, InputType, SPECIAL_CHARS};
 use crate::icons::{EyeIcon, EyeOffIcon};
 use dioxus::prelude::*;
