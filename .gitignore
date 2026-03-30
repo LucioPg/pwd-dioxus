@@ -2,3 +2,4 @@
 /.idea
 Cargo.lock
 .claude
+assets/tailwind-safelist.txt
