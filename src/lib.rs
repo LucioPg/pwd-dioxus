@@ -74,6 +74,10 @@ pub const TAILWIND_CLASSES_USED: &[&str] = &[
     "modal",
     "modal-box",
     "modal-backdrop",
+    "modal-open",
+    "modal-middle",
+    "modal-top",
+    "modal-bottom",
     "form-label",
     "dropdown-content",
     "mockup-code",
@@ -83,6 +87,19 @@ pub const TAILWIND_CLASSES_USED: &[&str] = &[
     "text-base-content",
     "dropdown",
     "dropdown-open",
+
+    // === DaisyUI Toggle Classes ===
+    "toggle",
+    "toggle-sm",
+    "toggle-lg",
+    "toggle-primary",
+    "toggle-secondary",
+    "toggle-accent",
+    "toggle-success",
+    "toggle-warning",
+    "toggle-info",
+    "toggle-error",
+    "toggle-neutral",
 
     // === Tailwind Layout ===
     "flex",
