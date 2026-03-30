@@ -70,7 +70,7 @@ fn main() {
     let mut all_classes = HashSet::new();
 
     // Scan all .rs files in src/
-    if let Ok(entries) = fs::read_dir(src_dir) {
+    if let Ok(_entries) = fs::read_dir(src_dir) {
         collect_rs_files(src_dir, &mut all_classes);
     }
 
