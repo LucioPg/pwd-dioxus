@@ -1,0 +1,513 @@
+ bg-primary-color/5 backdrop-blur-sm
+ flex items-center justify-center {background}
+ flex items-center justify-center {background} {custom_class}
+#1f2937
+#22c55e
+#3b82f6
+#8b5cf6
+#a855f7
+#eab308
+#ef4444
+#f97316
+#fff)
+(Edge/IE)
+(WebKit/Chrome)
+({score}%)
+,
+            InputType::Email => 
+,
+            InputType::NonNegativeInt => 
+,
+            InputType::Number => 
+,
+            InputType::Password => 
+,
+            InputType::PositiveInt => 
+,
+            InputType::SpecialChars => 
+,
+            InputType::Tel => 
+,
+            InputType::Textarea => 
+,
+            InputType::Url => 
+--spinner-inner:
+--spinner-size:
+.password-input-with-toggle
+.password-input-wrapper
+.password-visibility-toggle
+.pwd-display-action-btn
+.pwd-display-action-btn:active
+.pwd-display-action-btn:disabled
+.pwd-display-action-btn:focus-visible
+.pwd-display-action-btn:hover
+.pwd-secret-display
+.pwd-toast-container
+.pwd-toast-error
+.pwd-toast-in
+.pwd-toast-info
+.pwd-toast-out
+.pwd-toast-success
+.pwd-toast-warning
+.secret-display-wrapper
+.spinner
+.spinner-4xl
+.spinner-error.spinner
+.spinner-lg
+.spinner-md
+.spinner-sm
+.spinner-success.spinner
+.spinner-xl
+.spinner::after
+.spinner::before
+.strength-analyzer
+.strength-bar
+.strength-bar-container
+.strength-cursor
+.strength-info-btn
+.strength-info-btn:hover
+.strength-reasons-tooltip
+0.04deg
+0.25rem
+0.2s
+0.3s
+0.5rem
+0.75rem
+0deg
+100ms
+12px
+150ms
+150px
+16px
+18px
+1rem
+1s
+200px
+20px
+24px
+2px
+30px
+360deg
+3px
+40px
+42px
+4px
+56px
+60px
+80px
+8px
+90deg
+ANALYZER
+ANIMATIONS
+COMPONENT
+COMPONENTS
+CSS
+Confirm Password
+Confirm your password
+Copia negli appunti
+DISPLAY
+Diceware
+Enter your password
+Enter your username
+Epic
+Errore clipboard: {}
+God
+HANDLER
+Hide
+INPUT
+Impossibile accedere agli appunti: {}
+LOADING
+M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z
+M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2
+M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6
+M3 6h18
+M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2
+Medium
+Mostra
+Mostra password
+NOTIFICATIONS
+Nascondi
+Nascondi password
+Not evaluated
+PASSWORD
+PWD-DIOXUS
+Password
+Password Casuale
+Passwords do not match
+Per
+Questo
+SECRET
+SPINNER
+STATES
+STRENGTH
+Score: {cursor_position.value()}%
+Se
+Spinner
+Strong
+Suggest
+TOAST
+TOGGLE
+Tailwind
+Username
+VISIBILITY
+WITH
+Weak
+Why this rating?
+absolute
+align-items:
+analyzer
+animation-duration: {duration}s;
+animation:
+apply
+at
+backdrop-blur-sm
+background-color
+background-color:
+background:
+bg-base-100
+bg-base-200
+bg-base-content
+bg-blue-100
+bg-green-100
+bg-primary-color/5
+bg-red-100
+bg-yellow-100
+border
+border-blue-500
+border-box
+border-green-500
+border-radius:
+border-red-500
+border-yellow-500
+border:
+bottom-4
+box-shadow
+box-shadow:
+box-sizing:
+browser
+btn
+btn btn-ghost btn-sm gap-2 tooltip
+btn btn-ghost btn-sm gap-2 tooltip btn-disabled
+btn m-1 w-64 justify-between
+btn m-1 w-64 justify-between btn-disabled
+btn-ghost
+btn-sm
+build:
+button
+calc((var(--spinner-size)
+center
+checkbox
+classi
+color
+color:
+combobox
+componenti
+components
+conic-gradient(
+consumer:
+content:
+contiene
+cubic-bezier(0.19
+cubic-bezier(0.4
+currentColor
+cursor:
+data-tip
+della
+disabled:cursor-not-allowed
+disabled:hover:bg-transparent
+disabled:hover:text-neutral-500
+disabled:opacity-50
+display:
+dropdown
+dropdown dropdown-end
+dropdown-content
+dropdown-content mockup-code bg-base-200 shadow-lg rounded-lg p-3 min-w-[200px]
+dropdown-open
+duration-150
+ease
+ease-in
+ease-out
+ellipsis
+fadeIn
+file
+fit-content
+fixed
+fixed inset-0 z-[5]
+fixed inset-0 z-[9998]
+flex
+flex items-center gap-2
+flex items-start gap-1
+flex justify-end
+flex-col
+focus:outline-none
+focus:ring-2
+focus:ring-offset-1
+focus:ring-primary-500
+font-bold
+font-bold text-sm mb-2
+font-medium
+font-mono
+font-size:
+form
+form-group
+form-group {}
+form-label
+forwards
+from
+gap-1
+gap-2
+gap-3
+gap:
+gi
+h-10
+h-14
+h-20
+h-50
+h-6
+h4
+ha
+handler
+height:
+hidden
+hover:bg-neutral-100
+hover:text-neutral-700
+i
+icons
+icons-action
+icons-alert
+icons-visibility
+il
+import
+in
+includere
+infinite
+inherit
+input[type="password"]::-ms-reveal
+input[type="password"]::-webkit-caps-lock-indicator
+input[type="password"]::-webkit-credentials-auto-fill-button
+input[type="text"]::-ms-reveal
+input_main.css
+inset-0
+integrare
+items-center
+items-start
+justify-center
+justify-content:
+justify-end
+keyframes
+layer
+le
+left
+left-0
+left:
+left: {cursor_position.value()}%
+li
+libreria
+linear
+linear-gradient(
+menu p-2 shadow-lg bg-base-100 rounded-box w-64
+min-height:
+min-w-[200px]
+min-width:
+ml-1
+mockup-code
+modal
+modal {open_class} {placement_class}
+modal-backdrop
+modal-bottom
+modal-box
+modal-box {class}
+modal-middle
+modal-open
+modal-top
+mt-2
+native
+nel
+non
+none
+not-allowed
+notification-in
+nowrap
+nuovi
+off
+on
+opacity:
+outline-offset:
+outline:
+overflow:
+p-1
+p-3
+padding:
+password
+password-handler flex flex-col gap-3
+password-input-wrapper
+password-visibility-toggle
+per
+pointer
+pointer-events:
+position:
+position: fixed; z-index: 9999; top: -9999px; left: 0;
+pr-12
+progetti
+progetto
+pwd-combo-{}
+pwd-dioxus.
+pwd-display-action-btn
+pwd-input
+pwd-secret-display w-full font-mono
+pwd-toast-base
+pwd-toast-container
+pwd-toast-error
+pwd-toast-in
+pwd-toast-info
+pwd-toast-out
+pwd-toast-success
+pwd-toast-warning
+px-6
+py-4
+queste
+questo
+relative
+reveal
+rgba(0
+rgba(31
+rgba(39
+rgba(59
+right
+right-3
+right-4
+right:
+rotate
+round
+rounded
+rounded-box
+rounded-lg
+rounded-xl
+scale(0.85)
+scale(1.2)
+secret-display
+secret-display-actions flex gap-1
+secret-display-wrapper {class.clone().unwrap_or_default()}
+serve
+shadow-lg
+slide-in-right
+slide-out-right
+solid
+space-y-1
+spinner
+spinner {} {color_class}
+spinner-4xl
+spinner-error
+spinner-lg
+spinner-md
+spinner-sm
+spinner-success
+spinner-xl
+strength-analyzer flex flex-col gap-2
+strength-bar
+strength-bar-container
+strength-cursor
+strength-info-btn
+strength-reasons-tooltip absolute top-full left-0 mt-2 z-10
+suggest password
+text
+text-base-content
+text-base-content/70
+text-blue-500
+text-blue-600
+text-blue-800
+text-current
+text-error
+text-error ml-1
+text-error-500
+text-error-600
+text-gray-500
+text-gray-500 text-sm
+text-green-800
+text-info-500
+text-neutral-500
+text-overflow:
+text-primary-600
+text-purple-600
+text-red-800
+text-sm
+text-success
+text-success-500
+text-success-600
+text-warning-600
+text-xs
+text-xs space-y-1
+text-yellow-800
+theme('colors.base-300')
+theme('colors.base-content')
+to
+toast
+toggle
+toggle-accent
+toggle-error
+toggle-info
+toggle-lg
+toggle-neutral
+toggle-primary
+toggle-secondary
+toggle-sm
+toggle-success
+toggle-warning
+tooltip
+top-full
+top:
+transform
+transform:
+transition-colors
+transition:
+translate(-50
+translateX(0)
+translateX(100%)
+translateY(-50%)
+transparent
+tutte
+username
+utility
+var(--focused-border-color)
+var(--primary-color
+var(--primary-color-3)
+var(--spinner-inner)
+var(--spinner-inner))
+var(--spinner-size)
+variants
+visibility:
+w-10
+w-14
+w-20
+w-50
+w-6
+white
+white-space:
+width:
+z-10
+z-9999
+z-[5]
+{class_str}
+{classes}
+{combo_id}
+{combo_id}-dropdown
+{container_classes}
+{display_value}
+{effective_type}
+{input_class}
+{input_class} password-input-with-toggle
+{label}
+{placeholder}
+{props.fill}
+{props.size}
+{props.stroke_width}
+{props.stroke}
+{reason}
+{selected_item}
+{spinner_classes}
+{strength_text}
+{text_class} font-medium
+{toast.id}
+{toast.message}
+{toast_type_class(&toast.toast_type)} {transition_class}
+{value.read().to_form_string()}
