@@ -5,5 +5,5 @@
 mod component;
 mod types;
 
-pub use component::Combobox;
+pub use component::{Combobox, ComboboxSize};
 pub use types::AnyPreset;
