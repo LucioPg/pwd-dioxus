@@ -47,6 +47,23 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
         .unwrap_or_else(|| placeholder.clone());
     let mut is_open = use_signal(|| false);
     let mut selected_item = use_signal(|| initial_label);
+    // Keep selected_item in sync when selected_value or options change after mount
+    use_effect(use_reactive(
+        (&selected_value, &options),
+        move |(selected_value, options)| {
+            let label = selected_value
+                .as_ref()
+                .and_then(|val| {
+                    options
+                        .iter()
+                        .find(|(_, opt_val)| opt_val.as_ref() == Some(val))
+                })
+                .map(|(label, _)| label.to_string());
+            if let Some(label) = label {
+                selected_item.set(label);
+            }
+        },
+    ));
     let is_disabled = use_memo(move || disabled());
     let combo_id = use_signal(|| {
         format!(
