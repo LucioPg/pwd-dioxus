@@ -8,6 +8,30 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 static COMBO_ID_COUNTER: AtomicUsize = AtomicUsize::new(0);
 
+#[derive(Clone, Copy)]
+pub enum ComboboxSize {
+    Small,
+    Medium,
+    Large,
+    Full,
+}
+
+impl Default for ComboboxSize {
+    fn default() -> Self {
+        ComboboxSize::Large
+    }
+}
+
+impl ComboboxSize {
+    pub fn size_class(&self) -> &'static str {
+        match self {
+            ComboboxSize::Small => "w-32",
+            ComboboxSize::Medium => "w-48",
+            ComboboxSize::Large => "w-64",
+            ComboboxSize::Full => "w-full",
+        }
+    }
+}
 #[component]
 pub fn Combobox<T: Clone + PartialEq + 'static>(
     options: Vec<(&'static str, Option<T>)>,
@@ -15,6 +39,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     on_change: EventHandler<Option<T>>,
     #[props(default)] disabled: Signal<bool>,
     #[props(default)] selected_value: Option<T>,
+    #[props(default)] size: ComboboxSize = ComboboxSize::default(),
 ) -> Element {
     let initial_label = selected_value
         .as_ref()
@@ -42,9 +67,9 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
                 id: "{combo_id}",
                 role: "button",
                 class: if is_disabled() {
-                    "btn m-1 w-64 justify-between btn-disabled"
+                    "btn m-1 {size.size_class} justify-between btn-disabled"
                 } else {
-                    "btn m-1 w-64 justify-between"
+                    "btn m-1 {size.size_class} justify-between"
                 },
                 onclick: move |_| if !is_disabled() { is_open.toggle() },
                 "{selected_item}"
