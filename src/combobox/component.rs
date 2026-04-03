@@ -20,7 +20,7 @@ pub enum ComboboxSize {
 impl ComboboxSize {
     pub fn size_class(&self) -> &'static str {
         match self {
-            ComboboxSize::Small => "w-32",
+            ComboboxSize::Small => "w-36",
             ComboboxSize::Medium => "w-48",
             ComboboxSize::Large => "w-64",
             ComboboxSize::Full => "w-full",
