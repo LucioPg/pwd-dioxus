@@ -33,10 +33,10 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     placeholder: String,
     on_change: EventHandler<Option<T>>,
     #[props(default)] disabled: ReadOnlySignal<bool>,
-    #[props(default)] selected_value: Option<T>,
+    #[props(default)] selected_value: ReadOnlySignal<Option<T>>,
     #[props(default)] size: ComboboxSize,
 ) -> Element {
-    let initial_label = selected_value
+    let initial_label = selected_value()
         .as_ref()
         .and_then(|val| {
             options
@@ -49,9 +49,9 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     let mut selected_item = use_signal(|| initial_label);
     // Keep selected_item in sync when selected_value or options change after mount
     use_effect(use_reactive(
-        (&selected_value, &options),
-        move |(selected_value, options)| {
-            let label = selected_value
+        &options,
+        move |options| {
+            let label = selected_value()
                 .as_ref()
                 .and_then(|val| {
                     options
