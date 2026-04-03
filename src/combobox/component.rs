@@ -32,7 +32,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     options: Vec<(&'static str, Option<T>)>,
     placeholder: String,
     on_change: EventHandler<Option<T>>,
-    #[props(default)] disabled: Signal<bool>,
+    #[props(default)] disabled: ReadOnlySignal<bool>,
     #[props(default)] selected_value: Option<T>,
     #[props(default)] size: ComboboxSize,
 ) -> Element {
