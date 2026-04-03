@@ -95,4 +95,4 @@ pub use pwd_types::{PasswordScore, PasswordStrength};
 pub use pwd_types::PasswordChangeResult;
 
 #[cfg(feature = "combobox")]
-pub use combobox::{Combobox,AnyPreset};
+pub use combobox::{Combobox, ComboboxSize, AnyPreset};
