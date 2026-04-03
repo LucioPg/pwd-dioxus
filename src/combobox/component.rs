@@ -8,18 +8,13 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 static COMBO_ID_COUNTER: AtomicUsize = AtomicUsize::new(0);
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Default, PartialEq)]
 pub enum ComboboxSize {
     Small,
     Medium,
+    #[default]
     Large,
     Full,
-}
-
-impl Default for ComboboxSize {
-    fn default() -> Self {
-        ComboboxSize::Large
-    }
 }
 
 impl ComboboxSize {
@@ -39,7 +34,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     on_change: EventHandler<Option<T>>,
     #[props(default)] disabled: Signal<bool>,
     #[props(default)] selected_value: Option<T>,
-    #[props(default)] size: ComboboxSize = ComboboxSize::default(),
+    #[props(default)] size: ComboboxSize,
 ) -> Element {
     let initial_label = selected_value
         .as_ref()
@@ -67,9 +62,9 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
                 id: "{combo_id}",
                 role: "button",
                 class: if is_disabled() {
-                    "btn m-1 {size.size_class} justify-between btn-disabled"
+                    "btn m-1 {size.size_class()} justify-between btn-disabled"
                 } else {
-                    "btn m-1 {size.size_class} justify-between"
+                    "btn m-1 {size.size_class()} justify-between"
                 },
                 onclick: move |_| if !is_disabled() { is_open.toggle() },
                 "{selected_item}"
