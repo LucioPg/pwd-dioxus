@@ -36,7 +36,11 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     #[props(default)] selected_value: Option<T>,
     #[props(default)] size: ComboboxSize,
 ) -> Element {
-    let initial_label = selected_value
+    let mut is_open = use_signal(|| false);
+
+    // Computed from props on every render — inherently reactive, no hooks needed.
+    // When the parent re-renders with new selected_value or options, this recalculates.
+    let display_label = selected_value
         .as_ref()
         .and_then(|val| {
             options
@@ -45,25 +49,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
         })
         .map(|(label, _)| label.to_string())
         .unwrap_or_else(|| placeholder.clone());
-    let mut is_open = use_signal(|| false);
-    let mut selected_item = use_signal(|| initial_label);
-    // Keep selected_item in sync when selected_value or options change after mount
-    use_effect(use_reactive(
-        (&selected_value, &options),
-        move |(selected_value, options)| {
-            let label = selected_value
-                .as_ref()
-                .and_then(|val| {
-                    options
-                        .iter()
-                        .find(|(_, opt_val)| opt_val.as_ref() == Some(val))
-                })
-                .map(|(label, _)| label.to_string());
-            if let Some(label) = label {
-                selected_item.set(label);
-            }
-        },
-    ));
+
     let is_disabled = use_memo(move || disabled());
     let combo_id = use_signal(|| {
         format!(
@@ -84,7 +70,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
                     "btn m-1 {size.size_class()} justify-between"
                 },
                 onclick: move |_| if !is_disabled() { is_open.toggle() },
-                "{selected_item}"
+                "{display_label}"
                 // Icona freccia
                 span { class: "text-xs", {if is_open() { "▲" } else { "▼" }} }
             }
@@ -110,7 +96,6 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
                             key: "{label}",
                             a {
                                 onclick: move |_| {
-                                    selected_item.set(label.to_string());
                                     on_change.call(value.clone());
                                     is_open.set(false);
                                 },
