@@ -20,8 +20,8 @@ pub enum ComboboxSize {
 impl ComboboxSize {
     pub fn size_class(&self) -> &'static str {
         match self {
-            ComboboxSize::Small => "w-36",
-            ComboboxSize::Medium => "w-48",
+            ComboboxSize::Small => "w-32",
+            ComboboxSize::Medium => "w-40",
             ComboboxSize::Large => "w-64",
             ComboboxSize::Full => "w-full",
         }
@@ -32,7 +32,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     options: Vec<(&'static str, Option<T>)>,
     placeholder: String,
     on_change: EventHandler<Option<T>>,
-    #[props(default)] disabled: ReadOnlySignal<bool>,
+    #[props(default)] disabled: Signal<bool>,
     #[props(default)] selected_value: Option<T>,
     #[props(default)] size: ComboboxSize,
 ) -> Element {
@@ -46,26 +46,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
         .map(|(label, _)| label.to_string())
         .unwrap_or_else(|| placeholder.clone());
     let mut is_open = use_signal(|| false);
-    let mut pre_selected_item = use_signal(|| initial_label);
     let mut selected_item = use_signal(|| initial_label);
-    // Keep selected_item in sync when selected_value changes after mount
-    let effect_options = options.clone();
-    use_effect(move || {
-        println!("use_effect");
-        let label = <String as AsRef<T>>::as_ref(&pre_selected_item())
-            .as_ref()
-            .and_then(|val| {
-                effect_options
-                    .iter()
-                    .find(|(_, opt_val)| opt_val.as_ref() == Some(val))
-            })
-            .map(|(label, _)| label.to_string());
-        if let Some(label) = label {
-            println!("########### {}", label);
-            selected_item.set(label);
-        }
-    });
-    println!("Combobox mounted");
     let is_disabled = use_memo(move || disabled());
     let combo_id = use_signal(|| {
         format!(
