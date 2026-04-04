@@ -61,7 +61,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
             })
             .map(|(label, _)| label.to_string());
         if let Some(label) = label {
-            println!("########### ", label);
+            println!("########### {}", label);
             selected_item.set(label);
         }
     });
