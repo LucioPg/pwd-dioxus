@@ -52,7 +52,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
     let effect_options = options.clone();
     use_effect(move || {
         println!("use_effect");
-        let label = pre_selected_item()
+        let label = <String as AsRef<T>>::as_ref(&pre_selected_item())
             .as_ref()
             .and_then(|val| {
                 effect_options
