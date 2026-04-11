@@ -85,7 +85,7 @@ pub fn Combobox<T: Clone + PartialEq + 'static>(
         if is_open() {
             let id = combo_id().clone();
             eval(&format!(
-                r#"window._pwdComboScrollClose=function(){{var o=document.getElementById('{id}');if(o)o.click()}};window.addEventListener('scroll',window._pwdComboScrollClose,true)"#,
+                r#"window._pwdComboScrollClose=function(e){{var d=document.getElementById('{id}-dropdown');if(d&&d.contains(e.target))return;var o=document.getElementById('{id}');if(o)o.click()}};window.addEventListener('scroll',window._pwdComboScrollClose,true)"#,
             ));
         } else {
             eval(COMBO_TEARDOWN_SCROLL);
